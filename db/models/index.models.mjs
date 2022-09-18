@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import allConfig from "../config/config.js";
+import allConfig from "../../sequelize.config.cjs";
 
 // TODO: import models
 
