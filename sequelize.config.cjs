@@ -23,3 +23,5 @@ module.exports = {
     dialect: "postgres",
   },
 };
+
+// psql -d 3d-model-ecommerce-development
