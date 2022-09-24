@@ -1,33 +1,22 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('orders', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      first_name: {
-        type: Sequelize.STRING,
+      order_details: {
+        type: Sequelize.JSON,
       },
-      last_name: {
-        type: Sequelize.STRING,
+      customer_id: {
+        type: Sequelize.INTEGER,
       },
-      email: {
-        type: Sequelize.STRING,
+      amount: {
+        type: Sequelize.FLOAT,
       },
-      username: {
-        type: Sequelize.STRING,
-      },
-      password: {
-        type: Sequelize.STRING,
-      },
-      address: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      phone: {
-        allowNull: true,
+      status: {
         type: Sequelize.STRING,
       },
       created_at: {
@@ -43,6 +32,6 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     // Drop category_items first because it references items and categories.
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('orders');
   },
 };

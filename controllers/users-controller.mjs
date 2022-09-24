@@ -18,7 +18,7 @@ export default function initUsersController(db) {
   const signup = async (req, res) => {
     console.log(req.body);
     const {
-      firstName, lastName, password, email, username,
+      firstName, lastName, password, email, username, address, phone
     } = req.body;
 
     try {
@@ -36,6 +36,8 @@ export default function initUsersController(db) {
         const newUser = {
           firstName,
           lastName,
+          address,
+          phone,
           username,
           email,
           password: hashedPassword,
@@ -43,12 +45,9 @@ export default function initUsersController(db) {
         console.log(newUser);
 
         const userNew = await db.User.create(newUser);
-
-        res.send({
-          email: userNew.email,
-        });
+        res.status(200).json({email: userNew.email, message: 'user successfully signed up'});
       } else {
-        res.status(409).send({
+        res.status(409).json({
           error: 'The email address is already in use.',
         });
       }
@@ -79,6 +78,8 @@ export default function initUsersController(db) {
           firstName: user.firstName,
           lastName: user.lastName,
           username: user.username,
+          address: user.address,
+          phone: user.phone,
         };
         res.cookie('user', JSON.stringify(loggedInUser));
 
@@ -86,9 +87,9 @@ export default function initUsersController(db) {
           user: loggedInUser,
         };
 
-        res.send(result);
+        res.status(200).json({result: result, message: 'user successfully login'});
       } else {
-        res.status(401).send({
+        res.status(401).json({
           error: 'The login information is incorrect.',
         });
       }

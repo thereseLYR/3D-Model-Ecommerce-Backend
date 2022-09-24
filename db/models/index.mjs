@@ -2,6 +2,8 @@ import { Sequelize } from "sequelize";
 import allConfig from "../../sequelize.config.cjs";
 import url from 'url';
 import initUserModel from './user.mjs';
+import initModelModel from './model.mjs';
+import initOrderModel from './order.mjs';
 
 // TODO: import models
 
@@ -34,9 +36,14 @@ if (env === 'production') {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// TODO: add model relationships
 db.User = initUserModel(sequelize, Sequelize.DataTypes);
+db.Model = initModelModel(sequelize, Sequelize.DataTypes);
+db.Order = initOrderModel(sequelize, Sequelize.DataTypes);
 
 // Specify relationship of the tables here:
+// 1. User (One) - Order (Many)
+db.Order.belongsTo(db.User);
+db.User.hasMany(db.Order);
+
 
 export default db;

@@ -1,6 +1,6 @@
-export default function initUserModel(sequelize, DataTypes) {
+export default function initOrderModel(sequelize, DataTypes) {
   return sequelize.define(
-    'user',
+    'order',
     {
       id: {
         allowNull: false,
@@ -8,27 +8,16 @@ export default function initUserModel(sequelize, DataTypes) {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      firstName: {
-        type: DataTypes.STRING,
+      orderDetails: {
+        type: DataTypes.JSON,
       },
-      lastName: {
-        type: DataTypes.STRING,
+      customerId: {
+        type: DataTypes.INTEGER,
       },
-      email: {
-        type: DataTypes.STRING,
+      amount: {
+        type: DataTypes.FLOAT,
       },
-      username: {
-        type: DataTypes.STRING,
-      },
-      password: {
-        type: DataTypes.STRING,
-      },
-      address: {
-        allowNull: true,
-        type: DataTypes.STRING,
-      },
-      phone: {
-        allowNull: true,
+      status: {
         type: DataTypes.STRING,
       },
       createdAt: {
@@ -46,3 +35,4 @@ export default function initUserModel(sequelize, DataTypes) {
     },
   );
 }
+
