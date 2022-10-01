@@ -1,25 +1,23 @@
-import jsSHA from 'jssha';
+import jsSHA from "jssha";
 
 const SALT = process.env.SALT_PASSWORD;
 
 const getHashSalted = (input) => {
   // create new SHA object
-  const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
+  const shaObj = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" });
   // create an unhashed cookie string based on user ID and salt
-  const unhashedString = `${input}-${SALT}`;
+  const unhashedString = SALT == undefined ? `${input}` : `${input}-${SALT}`;
 
   // generate a hashed cookie string using SHA object
   shaObj.update(unhashedString);
 
-  return shaObj.getHash('HEX');
+  return shaObj.getHash("HEX");
 };
 
 export default function initUsersController(db) {
   const signup = async (req, res) => {
-    console.log(req.body);
-    const {
-      firstName, lastName, password, email, username, address, phone
-    } = req.body;
+    const { firstName, lastName, password, email, username, address, phone } =
+      req.body;
 
     try {
       const user = await db.User.findOne({
@@ -27,11 +25,10 @@ export default function initUsersController(db) {
           email,
         },
       });
-      console.log('user', user);
 
       if (!user) {
         const hashedPassword = getHashSalted(password);
-        console.log('hashed password', hashedPassword);
+        console.log("hashed password", hashedPassword);
 
         const newUser = {
           firstName,
@@ -42,13 +39,15 @@ export default function initUsersController(db) {
           email,
           password: hashedPassword,
         };
-        console.log(newUser);
 
         const userNew = await db.User.create(newUser);
-        res.status(200).json({email: userNew.email, message: 'user successfully signed up'});
+        res.status(200).json({
+          email: userNew.email,
+          message: "user successfully signed up",
+        });
       } else {
         res.status(409).json({
-          error: 'The email address is already in use.',
+          error: "The email address is already in use.",
         });
       }
     } catch (error) {
@@ -65,12 +64,13 @@ export default function initUsersController(db) {
           email,
         },
       });
-      console.log('user found!');
+
+      // user found
       const hashedPassword = getHashSalted(password);
       if (hashedPassword === user.password) {
         const unhashedCookieString = `${user.id}`;
         const hashedCookieString = getHashSalted(unhashedCookieString);
-        res.cookie('loggedInHash', hashedCookieString);
+        res.cookie("loggedInHash", hashedCookieString);
 
         const loggedInUser = {
           id: user.id,
@@ -81,16 +81,18 @@ export default function initUsersController(db) {
           address: user.address,
           phone: user.phone,
         };
-        res.cookie('user', JSON.stringify(loggedInUser));
+        res.cookie("user", JSON.stringify(loggedInUser));
 
         const result = {
           user: loggedInUser,
         };
 
-        res.status(200).json({result: result, message: 'user successfully login'});
+        res
+          .status(200)
+          .json({ result: result, message: "user successfully login" });
       } else {
         res.status(401).json({
-          error: 'The login information is incorrect.',
+          error: "The login information is incorrect.",
         });
       }
     } catch (err) {
@@ -109,8 +111,20 @@ export default function initUsersController(db) {
   //   }
   // };
 
-  const verify = async (req, res) => {
-    // check if cookies exist
+  const verifyUserIsLoggedIn = (req, res) => {
+    const loggedIn = verify(req, res);
+    if (loggedIn) {
+      res.status(200).json({ result: true, message: "user login verified" });
+    } else {
+      console.log("restricted!");
+      res.clearCookie("loggedInHash");
+      res.clearCookie("user");
+      res.status(401).json({ result: false, message: "user login unverified" });
+    }
+  };
+
+  const verify = (req, res) => {
+    // check if user cookies exist
     if (req.cookies.user && req.cookies.loggedInHash) {
       const userCookie = req.cookies.user;
       const loggedInHashCookie = req.cookies.loggedInHash;
@@ -118,20 +132,13 @@ export default function initUsersController(db) {
       const user = JSON.parse(userCookie);
       // verify if hashed user id is the same as cookie
       const hashedUserId = getHashSalted(user.id);
-      // verified
-      if (hashedUserId === loggedInHashCookie) {
-        res.send(true);
-      } else {
-        console.log('restricted!');
-        res.clearCookie('loggedInHash');
-        res.clearCookie('user');
-        res.send(false);
+      if (hashedUserId !== loggedInHashCookie) {
+        return false;
       }
+      return true;
     } else {
-      console.log('restricted!');
-      res.clearCookie('loggedInHash');
-      res.clearCookie('user');
-      res.send(false);
+      // user cookies not found return false
+      return false;
     }
   };
 
@@ -140,5 +147,6 @@ export default function initUsersController(db) {
     login,
     // logout,
     verify,
+    verifyUserIsLoggedIn,
   };
 }

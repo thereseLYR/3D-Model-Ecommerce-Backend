@@ -1,6 +1,6 @@
 export default function initOrderModel(sequelize, DataTypes) {
   return sequelize.define(
-    'order',
+    "order",
     {
       id: {
         allowNull: false,
@@ -9,30 +9,36 @@ export default function initOrderModel(sequelize, DataTypes) {
         type: DataTypes.INTEGER,
       },
       orderDetails: {
+        allowNull: false,
         type: DataTypes.JSON,
       },
       customerId: {
+        allowNull: false,
         type: DataTypes.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       amount: {
+        allowNull: false,
         type: DataTypes.FLOAT,
       },
       status: {
-        type: DataTypes.STRING,
+        allowNull: false,
+        type: DataTypes.STRING, // submitted, in_progress, completed
       },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
       },
     },
-    {
-      // The underscored option makes Sequelize reference snake_case names in the DB.
-      underscored: true,
-    },
+    { underscored: true }
   );
 }
-

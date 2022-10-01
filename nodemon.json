@@ -1,4 +1,4 @@
 {
-  "watch": ["index.mjs"],
+  "watch": ["index.mjs", "routes.mjs", "controllers/", "db/models/"],
   "ext": "js, mjs"
 }
