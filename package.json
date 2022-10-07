@@ -10,6 +10,7 @@
     "nodemon": "^2.0.20",
     "pg": "^8.8.0",
     "sequelize": "^6.23.0",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "stripe": "^10.12.0"
   }
 }
