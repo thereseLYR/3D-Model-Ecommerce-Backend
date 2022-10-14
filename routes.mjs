@@ -8,6 +8,7 @@ export default function routes(app) {
   const usersController = initUsersController(db);
   app.post("/api/register", usersController.signup);
   app.post("/api/login", usersController.login);
+  app.post("/api/update-profile", usersController.updateProfile);
   app.get("/api/verify-cookie", usersController.verifyUserIsLoggedIn);
 
   // orders routes
