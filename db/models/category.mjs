@@ -1,6 +1,6 @@
-export default function initModelModel(sequelize, DataTypes) {
+export default function initCategoryModel(sequelize, DataTypes) {
   return sequelize.define(
-    'model',
+    'category',
     {
       id: {
         allowNull: false,
@@ -8,25 +8,9 @@ export default function initModelModel(sequelize, DataTypes) {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      model_name: {
+      category_name: {
         allowNull: false,
         type: DataTypes.STRING
-      },
-      model_description: {
-        allowNull: false,
-        type: DataTypes.STRING
-      },
-      category_id: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'categories',
-          key: 'id'
-        }
-      },
-      price_per_unit: {
-        allowNull: false,
-        type: DataTypes.FLOAT
       },
       created_at: {
         allowNull: false,
