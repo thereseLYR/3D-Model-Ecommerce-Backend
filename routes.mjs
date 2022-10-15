@@ -22,5 +22,5 @@ export default function routes(app) {
 
   // model routes
   const modelsController = initModelsController(db)
-  app.get('/models', modelsController.getModelsByCategory)
+  app.get('/api/models', modelsController.getModelsByCategory)
 }
