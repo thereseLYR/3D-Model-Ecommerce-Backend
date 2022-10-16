@@ -7,7 +7,7 @@ export default function initModelsController(db) {
       // so this fetches all models
       try {
         const models = await db.Model.findAll()
-        res.send(models)
+        res.json({ results: models })
       } catch (error) {
         console.log(error)
       }
@@ -19,7 +19,7 @@ export default function initModelsController(db) {
             category_id: categoryId
           }
         })
-        res.send(models)
+        res.json({ results: models })
       } catch (error) {
         console.log(error)
       }

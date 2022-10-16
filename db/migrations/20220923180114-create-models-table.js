@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('models', {
+    await queryInterface.createTable("models", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,8 +19,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'categories',
-          key: 'id'
+          model: "categories",
+          key: "id"
         }
       },
       price_per_unit: {
@@ -42,6 +42,6 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     // Drop category_items first because it references items and categories.
-    await queryInterface.dropTable('models')
+    await queryInterface.dropTable("models")
   }
 }

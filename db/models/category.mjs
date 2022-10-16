@@ -1,6 +1,6 @@
 export default function initCategoryModel(sequelize, DataTypes) {
   return sequelize.define(
-    'category',
+    "category",
     {
       id: {
         allowNull: false,

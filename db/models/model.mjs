@@ -1,6 +1,6 @@
 export default function initModelModel(sequelize, DataTypes) {
   return sequelize.define(
-    'model',
+    "model",
     {
       id: {
         allowNull: false,
@@ -20,8 +20,8 @@ export default function initModelModel(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
-          model: 'categories',
-          key: 'id'
+          model: "categories",
+          key: "id"
         }
       },
       price_per_unit: {
