@@ -6,42 +6,42 @@ export default function initModelModel(sequelize, DataTypes) {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
       },
       model_name: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       model_description: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       category_id: {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
           model: "categories",
-          key: "id"
-        }
+          key: "id",
+        },
       },
       price_per_unit: {
         allowNull: false,
-        type: DataTypes.FLOAT
+        type: DataTypes.FLOAT,
       },
       created_at: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        defaultValue: DataTypes.NOW,
       },
       updated_at: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-      }
+        defaultValue: DataTypes.NOW,
+      },
     },
     {
       // The underscored option makes Sequelize reference snake_case names in the DB.
-      underscored: true
+      underscored: true,
     }
-  )
+  );
 }
