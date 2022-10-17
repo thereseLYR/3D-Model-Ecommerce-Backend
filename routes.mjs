@@ -1,26 +1,26 @@
-import db from './db/models/index.mjs'
-import initUsersController from './controllers/users.controller.mjs'
-import initOrdersController from './controllers/orders.controller.mjs'
-import initStripeController from './controllers/stripe.controller.mjs'
-import initModelsController from './controllers/models.controller.mjs'
+import initModelsController from "./controllers/models.controller.mjs";
+import initOrdersController from "./controllers/orders.controller.mjs";
+import initStripeController from "./controllers/stripe.controller.mjs";
+import initUsersController from "./controllers/users.controller.mjs";
+import db from "./db/models/index.mjs";
 
 export default function routes(app) {
   // users routes
-  const usersController = initUsersController(db)
-  app.post('/api/register', usersController.signup)
-  app.post('/api/login', usersController.login)
-  app.get('/api/verify-cookie', usersController.verifyUserIsLoggedIn)
+  const usersController = initUsersController(db);
+  app.post("/api/register", usersController.signup);
+  app.post("/api/login", usersController.login);
+  app.get("/api/verify-cookie", usersController.verifyUserIsLoggedIn);
 
   // orders routes
-  const ordersController = new initOrdersController(db, usersController)
-  app.post('/api/orders', ordersController.postNewOrder)
+  const ordersController = new initOrdersController(db, usersController);
+  app.post("/api/orders", ordersController.postNewOrder);
 
   // stripe routes
-  const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
-  const stripeController = new initStripeController(STRIPE_SECRET_KEY)
-  app.post('/api/stripe/payment-intents', stripeController.postPaymentIntent)
+  const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+  const stripeController = new initStripeController(STRIPE_SECRET_KEY);
+  app.post("/api/stripe/payment-intents", stripeController.postPaymentIntent);
 
   // model routes
-  const modelsController = initModelsController(db)
-  app.get('/api/models', modelsController.getModelsByCategory)
+  const modelsController = initModelsController(db);
+  app.get("/api/models", modelsController.getModelsByCategory);
 }

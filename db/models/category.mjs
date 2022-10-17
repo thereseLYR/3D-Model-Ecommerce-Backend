@@ -6,26 +6,26 @@ export default function initCategoryModel(sequelize, DataTypes) {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
       },
       category_name: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       created_at: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        defaultValue: DataTypes.NOW,
       },
       updated_at: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-      }
+        defaultValue: DataTypes.NOW,
+      },
     },
     {
       // The underscored option makes Sequelize reference snake_case names in the DB.
-      underscored: true
+      underscored: true,
     }
-  )
+  );
 }
