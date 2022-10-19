@@ -1,7 +1,7 @@
-import express from "express";
 import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 import cors from "cors";
+import express from "express";
+import methodOverride from "method-override";
 import bindRoutes from "./routes.mjs";
 
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
