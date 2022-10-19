@@ -21,6 +21,11 @@ class OrdersContoller {
     }
 
     const body = request.body;
+    const cookies = request.cookies;
+    console.log("looking for cookie values, please print");
+    console.log("temp_cart", cookies["temp_cart"]);
+    console.log("saved-models", cookies["saved-models"]);
+    console.log("user", cookies["user"]);
 
     // TODO: remove hardcoded values when we can get them from cookies later
     const fullOrder = [
@@ -47,6 +52,9 @@ class OrdersContoller {
       phone: body.phone,
       ...fullOrder,
     };
+
+    // to grab all the firstname, lastname, address, and phone info from DB
+    // user must be logged in for successful POST req
 
     const amount = fullOrder.reduce((accumulator, order) => {
       return accumulator + order.ppu * order.qty;

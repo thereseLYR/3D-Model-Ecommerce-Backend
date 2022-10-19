@@ -2,6 +2,7 @@ import db from "./db/models/index.mjs";
 import initUsersController from "./controllers/users.controller.mjs";
 import initOrdersController from "./controllers/orders.controller.mjs";
 import initStripeController from "./controllers/stripe.controller.mjs";
+import initModelsController from "./controllers/models.controller.mjs";
 
 export default function routes(app) {
   // users routes
@@ -18,4 +19,8 @@ export default function routes(app) {
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
   const stripeController = new initStripeController(STRIPE_SECRET_KEY);
   app.post("/api/stripe/payment-intents", stripeController.postPaymentIntent);
+
+  // models routes
+  const modelsController = initModelsController(db);
+  app.get("/api/model-data/:modelId", modelsController.getModelData); //expects something like /api/model-data/1
 }
