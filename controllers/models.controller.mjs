@@ -1,5 +1,4 @@
 export default function initModelsController(db) {
-
   const getModelData = async (req, res) => {
     // get model id from query params and spit model data back
     const { modelId } = req.params;
@@ -11,7 +10,7 @@ export default function initModelsController(db) {
       console.log(err);
     }
   };
-  
+
   const getModelsByCategory = async (req, res) => {
     const { categoryId } = req.body;
 
@@ -20,7 +19,7 @@ export default function initModelsController(db) {
       // so this fetches all models
       try {
         const models = await db.Model.findAll();
-        res.json({ results: models });
+        res.status(200).json({ results: models });
       } catch (error) {
         console.log(error);
       }
@@ -32,7 +31,7 @@ export default function initModelsController(db) {
             category_id: categoryId,
           },
         });
-        res.json({ results: models });
+        res.status(200).json({ results: models });
       } catch (error) {
         console.log(error);
       }
