@@ -23,8 +23,12 @@ export default function routes(app) {
 
   // models routes
   const modelsController = initModelsController(db);
-  app.get("/api/models/:modelId", modelsController.getModelData); //expects something like /api/model-data/1
-  app.get("/api/models", modelsController.getModelsByCategory);
+  app.get("/api/models/:modelId", modelsController.getModelData); //expects something like /api/models/1
+  app.get("/api/models", modelsController.getAllModels);
+  app.get(
+    "/api/models-by-category/:categoryId",
+    modelsController.getModelsByCategory
+  );
 
   // categories routes
   const categoriesController = initCategoriesController(db);
