@@ -1,8 +1,8 @@
 import initModelsController from "./controllers/models.controller.mjs";
 import initOrdersController from "./controllers/orders.controller.mjs";
 import initStripeController from "./controllers/stripe.controller.mjs";
-import initModelsController from "./controllers/models.controller.mjs";
 import initUsersController from "./controllers/users.controller.mjs";
+import initCategoriesController from "./controllers/categories.controller.mjs";
 import db from "./db/models/index.mjs";
 
 export default function routes(app) {
@@ -23,7 +23,14 @@ export default function routes(app) {
 
   // models routes
   const modelsController = initModelsController(db);
-  app.get("/api/models/:modelId", modelsController.getModelData); //expects something like /api/model-data/1
-  app.get("/api/models", modelsController.getModelsByCategory);
+  app.get("/api/models/:modelId", modelsController.getModelData); //expects something like /api/models/1
+  app.get("/api/models", modelsController.getAllModels);
+  app.get(
+    "/api/models-by-category/:categoryId",
+    modelsController.getModelsByCategory
+  );
 
+  // categories routes
+  const categoriesController = initCategoriesController(db);
+  app.get("/api/categories", categoriesController.getAllCategories);
 }
