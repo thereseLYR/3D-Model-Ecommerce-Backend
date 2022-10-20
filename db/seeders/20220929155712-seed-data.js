@@ -2,6 +2,24 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    const categoriesData = [
+      {
+        category_name: "Toys",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        category_name: "Household",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        category_name: "Fashion",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ];
+
     const modelData = [
       {
         model_name: "Clicky",
@@ -30,6 +48,10 @@ module.exports = {
       },
     ];
 
+    await queryInterface.bulkInsert("categories", categoriesData, {
+      returning: true,
+    });
+
     await queryInterface.bulkInsert("models", modelData, {
       returning: true,
     });
@@ -37,5 +59,6 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete("models", null, {});
+    await queryInterface.bulkDelete("categories", null, {});
   },
 };
