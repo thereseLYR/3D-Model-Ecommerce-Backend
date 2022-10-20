@@ -66,10 +66,9 @@ module.exports = {
 
     // Bulk insert users, returning=true,
     // and destructure the returned results array, for use in other tables
-    const [johnUser, maryUser, peterUser, ruthUser, simonUser] =
-      await queryInterface.bulkInsert("users", userData, {
-        returning: true,
-      });
+    await queryInterface.bulkInsert("users", userData, {
+      returning: true,
+    });
   },
 
   down: async (queryInterface) => {

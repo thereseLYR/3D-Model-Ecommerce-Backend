@@ -1,8 +1,9 @@
-import db from "./db/models/index.mjs";
-import initUsersController from "./controllers/users.controller.mjs";
+import initModelsController from "./controllers/models.controller.mjs";
 import initOrdersController from "./controllers/orders.controller.mjs";
 import initStripeController from "./controllers/stripe.controller.mjs";
 import initModelsController from "./controllers/models.controller.mjs";
+import initUsersController from "./controllers/users.controller.mjs";
+import db from "./db/models/index.mjs";
 
 export default function routes(app) {
   // users routes
@@ -22,5 +23,7 @@ export default function routes(app) {
 
   // models routes
   const modelsController = initModelsController(db);
-  app.get("/api/model-data/:modelId", modelsController.getModelData); //expects something like /api/model-data/1
+  app.get("/api/models/:modelId", modelsController.getModelData); //expects something like /api/model-data/1
+  app.get("/api/models", modelsController.getModelsByCategory);
+
 }

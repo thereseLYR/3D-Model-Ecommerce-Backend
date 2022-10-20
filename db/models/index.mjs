@@ -1,9 +1,10 @@
 import { Sequelize } from "sequelize";
-import allConfig from "../../sequelize.config.cjs";
 import url from "url";
-import initUserModel from "./user.mjs";
+import allConfig from "../../sequelize.config.cjs";
+import initCategoryModel from "./category.mjs";
 import initModelModel from "./model.mjs";
 import initOrderModel from "./order.mjs";
+import initUserModel from "./user.mjs";
 
 const env = process.env.NODE_ENV || "development";
 const config = allConfig[env];
@@ -45,12 +46,18 @@ db.Sequelize = Sequelize;
 db.User = initUserModel(sequelize, Sequelize.DataTypes);
 db.Model = initModelModel(sequelize, Sequelize.DataTypes);
 db.Order = initOrderModel(sequelize, Sequelize.DataTypes);
+db.Category = initCategoryModel(sequelize, Sequelize.DataTypes);
 
 // Specify relationship of the tables here:
 // 1. User (One) - Order (Many)
+// 2. Category (One) - Model (Many)
 db.User.hasMany(db.Order, {
   foreignKey: "customerId",
 });
+db.Category.hasMany(db.Model, {
+  foreignKey: "category_id",
+});
 db.Order.belongsTo(db.User, { foreignKey: "id" });
+db.Model.belongsTo(db.Category, { foreignKey: "id" });
 
 export default db;

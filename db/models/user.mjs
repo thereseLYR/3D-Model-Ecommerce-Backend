@@ -1,6 +1,6 @@
 export default function initUserModel(sequelize, DataTypes) {
   return sequelize.define(
-    'user',
+    "user",
     {
       id: {
         allowNull: false,
@@ -43,6 +43,6 @@ export default function initUserModel(sequelize, DataTypes) {
     {
       // The underscored option makes Sequelize reference snake_case names in the DB.
       underscored: true,
-    },
+    }
   );
 }

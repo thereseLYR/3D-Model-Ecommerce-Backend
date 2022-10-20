@@ -8,11 +8,11 @@ export default function initOrderModel(sequelize, DataTypes) {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      orderDetails: {
+      order_details: {
         allowNull: false,
         type: DataTypes.JSON,
       },
-      customerId: {
+      customer_id: {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
@@ -28,12 +28,12 @@ export default function initOrderModel(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.STRING, // submitted, in_progress, completed
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
