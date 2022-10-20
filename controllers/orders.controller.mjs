@@ -5,9 +5,6 @@ class OrdersContoller {
   }
   postNewOrder = async (request, response) => {
     // TODO: on add to cart, update local storage cookies of full_order
-    // full_order = array of object { model_id, model_name, model_params, qty, price_per_unit }
-    // retrieve these values to complete order_details
-    // order_details = firstname, lastname, address, phone, full_order
 
     // Verify if user is logged in before postNewOrder
     const loggedIn = this.userController.verify(request, response);
@@ -21,24 +18,9 @@ class OrdersContoller {
     }
 
     const body = request.body;
+    const cookies = request.cookies;
 
-    // TODO: remove hardcoded values when we can get them from cookies later
-    const fullOrder = [
-      {
-        modelId: 11,
-        modelName: "apple pixelated",
-        modelParams: { color: "red", material: "PLA" },
-        qty: 1,
-        ppu: 15,
-      },
-      {
-        modelId: 12,
-        modelName: "boat simple",
-        modelParams: { color: "blue", material: "PLA" },
-        qty: 1,
-        ppu: 30,
-      },
-    ];
+    const fullOrder = JSON.parse(cookies["temp_cart"]);
 
     const orderDetails = {
       firstname: body.firstname,
@@ -48,8 +30,11 @@ class OrdersContoller {
       ...fullOrder,
     };
 
+    // to grab all the firstname, lastname, address, and phone info from DB
+    // user must be logged in for successful POST req
+
     const amount = fullOrder.reduce((accumulator, order) => {
-      return accumulator + order.ppu * order.qty;
+      return accumulator + order.ppu * order.quantity;
     }, 0);
 
     const order = await this.db.Order.create({
