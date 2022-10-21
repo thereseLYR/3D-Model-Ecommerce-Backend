@@ -24,7 +24,7 @@ module.exports = {
       {
         model_name: "Clicky",
         model_description:
-          "A fidget gadget for when your fingers are itching to make something move.",
+          "A fidget gadget for when your fingers are itching to make something move",
         category_id: 1,
         price_per_unit: 15,
         created_at: new Date(),
