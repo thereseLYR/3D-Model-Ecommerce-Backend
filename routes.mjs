@@ -11,6 +11,7 @@ export default function routes(app) {
   app.post("/api/register", usersController.signup);
   app.post("/api/login", usersController.login);
   app.get("/api/verify-cookie", usersController.verifyUserIsLoggedIn);
+  app.get("/api/users/:user_id", usersController.getUserByUserID);
 
   // orders routes
   const ordersController = new initOrdersController(db, usersController);

@@ -142,11 +142,22 @@ export default function initUsersController(db) {
     }
   };
 
+  const getUserByUserID = async (req, resp) => {
+    const userID = req.params.user_id;
+    try {
+      const user = await db.User.findByPk(userID);
+      resp.status(200).json({ result: user });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return {
     signup,
     login,
     // logout,
     verify,
     verifyUserIsLoggedIn,
+    getUserByUserID,
   };
 }
