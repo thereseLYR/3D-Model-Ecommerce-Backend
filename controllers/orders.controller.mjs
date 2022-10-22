@@ -17,6 +17,7 @@ class OrdersContoller {
 
     const body = request.body;
     const cookies = request.cookies;
+    const userCookies = JSON.parse(cookies.user);
 
     const fullOrder = JSON.parse(cookies["temp_cart"]);
     const orderDetails = {
@@ -33,7 +34,7 @@ class OrdersContoller {
 
     const order = await this.db.Order.create({
       order_details: orderDetails,
-      customer_id: 1,
+      customer_id: userCookies.id,
       amount: amount,
       status: "submitted",
     });
