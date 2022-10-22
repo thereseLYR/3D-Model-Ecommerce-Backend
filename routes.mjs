@@ -1,8 +1,8 @@
+import initCategoriesController from "./controllers/categories.controller.mjs";
 import initModelsController from "./controllers/models.controller.mjs";
 import initOrdersController from "./controllers/orders.controller.mjs";
 import initStripeController from "./controllers/stripe.controller.mjs";
 import initUsersController from "./controllers/users.controller.mjs";
-import initCategoriesController from "./controllers/categories.controller.mjs";
 import db from "./db/models/index.mjs";
 
 export default function routes(app) {
@@ -11,10 +11,12 @@ export default function routes(app) {
   app.post("/api/register", usersController.signup);
   app.post("/api/login", usersController.login);
   app.get("/api/verify-cookie", usersController.verifyUserIsLoggedIn);
+  app.get("/api/users/:user_id", usersController.getUserByUserID);
 
   // orders routes
   const ordersController = new initOrdersController(db, usersController);
   app.post("/api/orders", ordersController.postNewOrder);
+  app.get("/api/orders/users/:user_id", ordersController.getLatestOrder);
 
   // stripe routes
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
