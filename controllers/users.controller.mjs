@@ -100,16 +100,15 @@ export default function initUsersController(db) {
     }
   };
 
-  // const logout = async (req, res) => {
-  //   try {
-  //     res.clearCookie('loggedInHash');
-  //     res.clearCookie('user');
-
-  //     res.json({ redirect: '/' });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const logout = async (req, res) => {
+    try {
+      res.clearCookie("loggedInHash");
+      res.clearCookie("user");
+      res.json({ redirect: "/" });
+    } catch (error) {
+      console.log("Failed to logout, err: ", error);
+    }
+  };
 
   const verifyUserIsLoggedIn = (req, res) => {
     const loggedIn = verify(req, res);
@@ -155,7 +154,7 @@ export default function initUsersController(db) {
   return {
     signup,
     login,
-    // logout,
+    logout,
     verify,
     verifyUserIsLoggedIn,
     getUserByUserID,

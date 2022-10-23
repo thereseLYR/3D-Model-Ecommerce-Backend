@@ -10,6 +10,7 @@ export default function routes(app) {
   const usersController = initUsersController(db);
   app.post("/api/register", usersController.signup);
   app.post("/api/login", usersController.login);
+  app.post("/api/logout", usersController.logout);
   app.get("/api/verify-cookie", usersController.verifyUserIsLoggedIn);
   app.get("/api/users/:user_id", usersController.getUserByUserID);
 
