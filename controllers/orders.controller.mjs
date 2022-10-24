@@ -3,10 +3,10 @@ class OrdersContoller {
     this.db = db;
     this.userController = userController;
   }
+
   postNewOrder = async (request, response) => {
     // Verify if user is logged in before postNewOrder
     const loggedIn = this.userController.verify(request, response);
-    console.log("is user logged in: ", loggedIn);
     if (!loggedIn) {
       response.status(403).json({
         result: false,
@@ -18,22 +18,24 @@ class OrdersContoller {
     const body = request.body;
     const cookies = request.cookies;
     const userCookies = JSON.parse(cookies.user);
+    const cartOrder = request.body.order;
 
-    const fullOrder = JSON.parse(cookies["temp_cart"]);
+    // Extract first cart order from cartOrder Array, can only accept array of 1 item for now
     const orderDetails = {
       fullname: body.fullname,
       address: body.address,
       email: body.email,
       phone: body.phone,
-      ...fullOrder,
+      ...cartOrder[0],
     };
 
-    const amount = fullOrder.reduce((accumulator, order) => {
+    // reducer can take an array of CartOrder
+    const amount = cartOrder.reduce((accumulator, order) => {
       return accumulator + order.ppu * order.quantity;
     }, 0);
 
     const order = await this.db.Order.create({
-      order_details: orderDetails,
+      order_details: JSON.stringify([orderDetails]),
       customer_id: userCookies.id,
       amount: amount,
       status: "submitted",
