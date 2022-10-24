@@ -3,15 +3,10 @@ class OrdersContoller {
     this.db = db;
     this.userController = userController;
   }
-  postNewOrder = async (request, response) => {
-    // TODO: on add to cart, update local storage cookies of full_order
-    // full_order = array of object { model_id, model_name, model_params, qty, price_per_unit }
-    // retrieve these values to complete order_details
-    // order_details = firstname, lastname, address, phone, full_order
 
+  postNewOrder = async (request, response) => {
     // Verify if user is logged in before postNewOrder
     const loggedIn = this.userController.verify(request, response);
-    console.log("is user logged in: ", loggedIn);
     if (!loggedIn) {
       response.status(403).json({
         result: false,
@@ -21,50 +16,60 @@ class OrdersContoller {
     }
 
     const body = request.body;
+    const cookies = request.cookies;
+    const userCookies = JSON.parse(cookies.user);
+    const cartOrder = request.body.order;
 
-    // TODO: remove hardcoded values when we can get them from cookies later
-    const fullOrder = [
-      {
-        modelId: 11,
-        modelName: "apple pixelated",
-        modelParams: { color: "red", material: "PLA" },
-        qty: 1,
-        ppu: 15,
-      },
-      {
-        modelId: 12,
-        modelName: "boat simple",
-        modelParams: { color: "blue", material: "PLA" },
-        qty: 1,
-        ppu: 30,
-      },
-    ];
-
+    // Extract first cart order from cartOrder Array, can only accept array of 1 item for now
     const orderDetails = {
-      firstname: body.firstname,
-      lastname: body.lastname,
+      fullname: body.fullname,
       address: body.address,
+      email: body.email,
       phone: body.phone,
-      ...fullOrder,
+      ...cartOrder[0],
     };
 
-    const amount = fullOrder.reduce((accumulator, order) => {
-      return accumulator + order.ppu * order.qty;
+    // reducer can take an array of CartOrder
+    const amount = cartOrder.reduce((accumulator, order) => {
+      return accumulator + order.ppu * order.quantity;
     }, 0);
 
     const order = await this.db.Order.create({
-      orderDetails: orderDetails,
-      customerId: 1,
+      order_details: JSON.stringify([orderDetails]),
+      customer_id: userCookies.id,
       amount: amount,
       status: "submitted",
     });
-
-    // TODO: api call to stripe on click checkout cart
 
     response.status(201).json({
       result: order.toJSON(),
       message: "successfully created order",
     });
+  };
+
+  getLatestOrder = async (request, response) => {
+    const userId = request.params.user_id;
+    let sort = "created_at:desc";
+
+    if (request.query.sort) {
+      sort = request.query.sort; // ?sort=created_at:desc
+    }
+
+    const sortOrder = sort.split(":");
+
+    try {
+      const order = await this.db.Order.findAll({
+        where: { customer_id: userId },
+        order: [[sortOrder[0], sortOrder[1]]],
+      });
+      console.log(order);
+      response.status(200).json({
+        result: order[0].toJSON(),
+        message: "successfully created order",
+      });
+    } catch (error) {
+      console.log("[DB_ERROR] unable to get latest order: ", error);
+    }
   };
 }
 

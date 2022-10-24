@@ -10,7 +10,7 @@ export default function initOrderModel(sequelize, DataTypes) {
       },
       order_details: {
         allowNull: false,
-        type: DataTypes.JSON,
+        type: DataTypes.TEXT,
       },
       customer_id: {
         allowNull: false,

@@ -1,32 +1,44 @@
 export default function initModelsController(db) {
-  const getModelsByCategory = async (req, res) => {
-    const { categoryId } = req.body;
+  const getModelData = async (req, res) => {
+    // get model id from query params and spit model data back
+    const { modelId } = req.params;
 
-    // category ids will start from 1 onwards, so will set the req categoryId to 0 if user clicks 'all categories'
-    if (categoryId === 0) {
-      // so this fetches all models
-      try {
-        const models = await db.Model.findAll();
-        res.json({ results: models });
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      // this fetches models based on selected category
-      try {
-        const models = await db.Model.findAll({
-          where: {
-            category_id: categoryId,
-          },
-        });
-        res.json({ results: models });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      const modelData = await db.Model.findByPk(modelId);
+      res.status(200).json({ modelData });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getAllModels = async (req, res) => {
+    try {
+      const models = await db.Model.findAll();
+      res.status(200).json({ results: models });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getModelsByCategory = async (req, res) => {
+    const { categoryId } = req.params;
+
+    // this fetches models based on selected category
+    try {
+      const models = await db.Model.findAll({
+        where: {
+          category_id: categoryId,
+        },
+      });
+      res.status(200).json({ results: models });
+    } catch (error) {
+      console.log(error);
     }
   };
 
   return {
+    getModelData,
+    getAllModels,
     getModelsByCategory,
   };
 }

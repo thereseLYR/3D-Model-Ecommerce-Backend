@@ -9,7 +9,7 @@ module.exports = {
       },
       order_details: {
         allowNull: false,
-        type: Sequelize.JSON,
+        type: Sequelize.TEXT,
       },
       customer_id: {
         allowNull: false,
