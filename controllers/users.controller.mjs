@@ -141,6 +141,56 @@ export default function initUsersController(db) {
     }
   };
 
+  const updateProfile = async (req, res) => {
+    const { id, firstName, lastName, email, username, address, phone } =
+      req.body;
+
+    try {
+      const user = await db.User.findOne({
+        where: {
+          id,
+        },
+      });
+      if (user) {
+        const updateUser = {
+          firstName,
+          lastName,
+          address,
+          phone,
+          username,
+          email,
+        };
+
+        const userUpdated = await user.update(updateUser);
+        const loggedInUser = {
+          id: userUpdated.id,
+          email: userUpdated.email,
+          firstName: userUpdated.firstName,
+          lastName: userUpdated.lastName,
+          username: userUpdated.username,
+          address: userUpdated.address,
+          phone: userUpdated.phone,
+        };
+
+        // update cookie
+        res.cookie("user", JSON.stringify(loggedInUser));
+        // send response
+        res.status(200).json({
+          result: {
+            updatedUser: loggedInUser,
+          },
+          message: "profile successfully updated",
+        });
+      } else {
+        res.status(404).json({
+          error: "invalid user_id, user profile not found.",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getUserByUserID = async (req, resp) => {
     const userID = req.params.user_id;
     try {
@@ -157,6 +207,7 @@ export default function initUsersController(db) {
     logout,
     verify,
     verifyUserIsLoggedIn,
+    updateProfile,
     getUserByUserID,
   };
 }
