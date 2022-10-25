@@ -46,6 +46,15 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       },
+      {
+        model_name: "Ghosties Trio",
+        model_description:
+          "Set of 3 printed ghosts for you to decorate with for Halloween. Legs optional. Spooky!",
+        category_id: 1,
+        price_per_unit: 30,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
     ];
 
     await queryInterface.bulkInsert("categories", categoriesData, {

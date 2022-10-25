@@ -151,9 +151,7 @@ export default function initUsersController(db) {
           id,
         },
       });
-      console.log(user)
       if (user) {
-
         const updateUser = {
           firstName,
           lastName,
@@ -164,7 +162,6 @@ export default function initUsersController(db) {
         };
 
         const userUpdated = await user.update(updateUser);
-
         const loggedInUser = {
           id: userUpdated.id,
           email: userUpdated.email,
@@ -174,25 +171,26 @@ export default function initUsersController(db) {
           address: userUpdated.address,
           phone: userUpdated.phone,
         };
+
+        // update cookie
         res.cookie("user", JSON.stringify(loggedInUser));
-
-        const result = {
-          updatedUser: loggedInUser,
-        };
-
+        // send response
         res.status(200).json({
-          result: result,
+          result: {
+            updatedUser: loggedInUser,
+          },
           message: "profile successfully updated",
         });
       } else {
-        res.status(409).json({
-          error: "error user profile not found.",
+        res.status(404).json({
+          error: "invalid user_id, user profile not found.",
         });
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
   const getUserByUserID = async (req, resp) => {
     const userID = req.params.user_id;
     try {
