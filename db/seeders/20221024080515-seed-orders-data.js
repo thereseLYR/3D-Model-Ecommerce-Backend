@@ -62,6 +62,93 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       },
+      {
+        id: 97,
+        order_details: JSON.stringify([
+          {
+            id: 1,
+            component_breakdown: {
+              Case_A_v3: "#5a5a5a",
+              Spring_Normal: "lightmagenta",
+              Wheel_40T: "darkblue",
+              Case_B_v4: "indianred",
+            },
+            quantity: "2",
+            material: "PLA",
+            model_name: "Clicky",
+            model_description:
+              "A fidget gadget for when your fingers are itching to make something move",
+            ppu: 15,
+            fullname: "John Doe",
+            address: "50 Craig Road, #01-01, Singapore 089680",
+            email: "john@gmail.com",
+            phone: "93377829",
+          },
+        ]),
+        customer_id: 1,
+        amount: 30,
+        status: "progress",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 96,
+        order_details: JSON.stringify([
+          {
+            id: 1,
+            component_breakdown: {
+              Case_A_v3: "#5a5a5a",
+              Spring_Normal: "lightmagenta",
+              Wheel_40T: "darkblue",
+              Case_B_v4: "indianred",
+            },
+            quantity: "2",
+            material: "PLA",
+            model_name: "Clicky",
+            model_description:
+              "A fidget gadget for when your fingers are itching to make something move",
+            ppu: 15,
+            fullname: "John Doe",
+            address: "50 Craig Road, #01-01, Singapore 089680",
+            email: "john@gmail.com",
+            phone: "93377829",
+          },
+        ]),
+        customer_id: 1,
+        amount: 30,
+        status: "completed",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 95,
+        order_details: JSON.stringify([
+          {
+            id: 1,
+            component_breakdown: {
+              Case_A_v3: "#5a5a5a",
+              Spring_Normal: "lightmagenta",
+              Wheel_40T: "darkblue",
+              Case_B_v4: "indianred",
+            },
+            quantity: "2",
+            material: "PLA",
+            model_name: "Clicky",
+            model_description:
+              "A fidget gadget for when your fingers are itching to make something move",
+            ppu: 15,
+            fullname: "John Doe",
+            address: "50 Craig Road, #01-01, Singapore 089680",
+            email: "john@gmail.com",
+            phone: "93377829",
+          },
+        ]),
+        customer_id: 1,
+        amount: 30,
+        status: "submitted",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
     ];
 
     await queryInterface.bulkInsert("orders", ordersToSeed, {});
