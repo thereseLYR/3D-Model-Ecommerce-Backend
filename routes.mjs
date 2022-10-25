@@ -19,6 +19,8 @@ export default function routes(app) {
   const ordersController = new initOrdersController(db, usersController);
   app.post("/api/orders", ordersController.postNewOrder);
   app.get("/api/orders/users/:user_id", ordersController.getLatestOrder);
+  app.get("/api/orders/all-data/:user_id", ordersController.getAllOrderDataByUserID);
+  app.delete("/api/orders/cancel-order/:order_id", ordersController.cancelOrderByOrderID);
 
   // stripe routes
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
