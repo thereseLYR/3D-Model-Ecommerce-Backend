@@ -72,19 +72,19 @@ class OrdersContoller {
     }
   };
 
-    getAllOrderDataByUserID = async (request, response) => {
+  getAllOrderDataByUserID = async (request, response) => {
     const userId = request.params.user_id;
-    console.log(userId)
+    console.log(userId);
     try {
       const order = await this.db.Order.findAll({
-        where: { customer_id: userId }
+        where: { customer_id: userId },
       });
       console.log(order);
 
       response.status(200).json({
-          result: order,
-          message: "successfully found order data",
-        });
+        result: order,
+        message: "successfully found order data",
+      });
     } catch (error) {
       console.log("[DB_ERROR] unable to find order data: ", error);
     }
@@ -92,15 +92,15 @@ class OrdersContoller {
 
   cancelOrderByOrderID = async (request, response) => {
     const orderId = request.params.order_id;
-    console.log(orderId)
+    console.log(orderId);
     try {
       const order = await this.db.Order.destroy({
-        where: { id: orderId }
+        where: { id: orderId },
       });
 
       response.status(200).json({
-          message: "successfully deleted order",
-        });
+        message: "successfully deleted order",
+      });
     } catch (error) {
       console.log("[DB_ERROR] unable to delete order: ", error);
     }
