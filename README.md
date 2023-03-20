@@ -24,7 +24,7 @@ STRIPE_SECRET_KEY=<stripe_sk>
 
 ```
 npx sequelize db:create
-npx sequelize db:migrate:all
+npx sequelize db:migrate
 npx sequelize db:seed:all
 ```
 
@@ -34,9 +34,11 @@ npx sequelize db:seed:all
 nodemon index.mjs
 ```
 
+Alternatively, if nodemon is not installed, `node index.mjs` will also work.
+
 6. Optionally configure node.json to watch for certain file extensions (.js / .mjs)
 
-7. Other sequel commands
+7. Other Sequelize commands
 
 - Use these commands to generate migrations and seeders
 
@@ -62,10 +64,10 @@ npx sequelize db:drop
 - category: Product Category of 3D model
 - model: 3D Model information
 - order: Purchase details of customer's orders
-- usee: Customer login and information
+- user: Customer login and information
 
 ## Router and Controllers
 
 All routes are maintained in `routes.mjs`
 
-- create an api in the desired controller and then expose an endpoint route for the api
+- create an api in the desired controller file, and then expose an endpoint route for the api
